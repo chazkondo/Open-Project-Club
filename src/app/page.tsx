@@ -1,22 +1,39 @@
 "use client";
+
 import React, { useEffect, useRef } from "react";
-import Link from "next/link";
 import { useSession, signIn, signOut } from "next-auth/react";
 import { motion } from "framer-motion";
 
+interface Particle {
+  x: number;
+  y: number;
+  size: number;
+  baseColor: number;
+  hue: number;
+  light: number;
+  goUp: boolean;
+  opacity: number;
+  velocity: { x: number; y: number };
+  draw: (ctx: CanvasRenderingContext2D) => void;
+  update: (ctx: CanvasRenderingContext2D) => void;
+}
+
 const HomePage = () => {
-  const canvasRef = useRef(null);
+  const canvasRef = useRef<HTMLCanvasElement | null>(null);
+  const particles: Particle[] = [];
   const { data: session } = useSession();
 
   useEffect(() => {
     const canvas = canvasRef.current;
+    if (!canvas) return;
+
     const ctx = canvas.getContext("2d");
+    if (!ctx) return;
 
     let width = (canvas.width = window.innerWidth);
     let height = (canvas.height = window.innerHeight);
-    const particles = [];
 
-    const mouse = { x: null, y: null, radius: 150 };
+    const mouse = { x: 0, y: 0, radius: 150 };
 
     window.addEventListener("mousemove", (event) => {
       mouse.x = event.clientX;
@@ -24,11 +41,21 @@ const HomePage = () => {
     });
 
     class Particle {
-      constructor(x, y, size) {
+      x: number;
+      y: number;
+      size: number;
+      baseColor: number;
+      hue: number;
+      light: number;
+      goUp: boolean;
+      opacity: number;
+      velocity: { x: number; y: number };
+
+      constructor(x: number, y: number, size: number) {
         this.x = x;
         this.y = y;
         this.size = size;
-        this.baseColor = 150; // Random starting hue
+        this.baseColor = 150;
         this.hue = this.baseColor;
         this.light = 40;
         this.goUp = false;
@@ -39,25 +66,25 @@ const HomePage = () => {
         };
       }
 
-      draw() {
+      draw(ctx: CanvasRenderingContext2D) {
         ctx.beginPath();
         ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
-        ctx.fillStyle = `hsla(${this.hue}, 100%, ${this.light}%, ${this.opacity}%)`; // Change color dynamically
+        ctx.fillStyle = `hsla(${this.hue}, 100%, ${this.light}%, ${this.opacity}%)`;
         ctx.fill();
       }
 
-      update() {
+      update(ctx: CanvasRenderingContext2D) {
         const dx = mouse.x - this.x;
         const dy = mouse.y - this.y;
         const distance = Math.sqrt(dx * dx + dy * dy);
         const maxDistance = mouse.radius;
 
         if (distance < maxDistance) {
-          this.hue = 360 * (distance / maxDistance); // Color shifts based on distance
+          this.hue = 360 * (distance / maxDistance);
           this.x += dx / 20;
           this.y += dy / 20;
         } else {
-          this.hue += 0.005; // Slow color shift over time
+          this.hue += 0.005;
           this.light = this.goUp ? this.light + 0.1 : this.light - 0.1;
           if (this.opacity < 60) this.opacity += 0.05;
           this.x += this.velocity.x;
@@ -73,7 +100,7 @@ const HomePage = () => {
         if (this.x > width || this.x < 0) this.velocity.x *= -1;
         if (this.y > height || this.y < 0) this.velocity.y *= -1;
 
-        this.draw();
+        this.draw(ctx);
       }
     }
 
@@ -88,8 +115,9 @@ const HomePage = () => {
     }
 
     function animate() {
+      if (!ctx) return; // ✅ Ensure ctx exists before using it
       ctx.clearRect(0, 0, width, height);
-      particles.forEach((particle) => particle.update());
+      particles.forEach((particle) => particle.update(ctx)); // ✅ Pass ctx to update()
       requestAnimationFrame(animate);
     }
 
@@ -130,7 +158,7 @@ const HomePage = () => {
             initial={{
               fontWeight: 400,
               color: "rgb(187 247 208 / var(--tw-text-opacity))",
-            }} // Normal weight initially
+            }}
             animate={{
               fontWeight: [400, 600, 600, 400],
               color: [
@@ -139,22 +167,22 @@ const HomePage = () => {
                 "rgb(74 222 128 / var(--tw-text-opacity))",
                 "rgb(187 247 208 / var(--tw-text-opacity))",
               ],
-            }} // Bold when underlined
+            }}
             transition={{
-              delay: 3.5, // Wait 4 seconds before bolding
-              duration: 4, // 2s appear, 4s stay, 4s fade out
-              times: [0, 0.2, 0.8, 1], // Same timing as underline
+              delay: 3.5,
+              duration: 4,
+              times: [0, 0.2, 0.8, 1],
               ease: "easeInOut",
             }}
             className="relative text-green-400"
           >
             your
             <motion.span
-              initial={{ scaleX: 0 }} // Start with no underline
-              animate={{ scaleX: [0, 1, 1, 0] }} // Expand underline
+              initial={{ scaleX: 0 }}
+              animate={{ scaleX: [0, 1, 1, 0] }}
               transition={{
-                delay: 3.5, // Wait 2 seconds before animating
-                duration: 4, // Total duration (2s appear, 4s stay, 4s disappear)
+                delay: 3.5,
+                duration: 4,
                 times: [0, 0.2, 0.8, 1],
                 ease: "easeInOut",
               }}
@@ -175,31 +203,8 @@ const HomePage = () => {
             Log In
           </motion.button>
         ) : (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 0.7, delay: 0.4 }}
-          >
+          <motion.div>
             <p className="mb-6">Welcome, {session.user.name}!</p>
-            <motion.div
-              className="flex space-x-4"
-              initial={{ opacity: 0, scale: 0.8 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ duration: 0.5, delay: 0.8 }}
-            >
-              <Link
-                href="/discord-invite"
-                className="px-6 py-2 bg-gradient-to-r from-green-500 to-blue-600 text-white rounded-full shadow-lg hover:scale-105 transition-transform duration-200 hover:shadow-green-500/50"
-              >
-                Join our Discord!
-              </Link>
-              <button
-                onClick={() => signOut()}
-                className="px-6 py-2 bg-gradient-to-r from-red-700 to-red-800 text-white rounded-full shadow-lg hover:scale-105 transition-transform duration-200 hover:shadow-red-500/50"
-              >
-                Log Out
-              </button>
-            </motion.div>
           </motion.div>
         )}
       </div>
