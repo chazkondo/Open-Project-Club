@@ -1,5 +1,6 @@
 "use client";
 import { getProviders, signIn, ClientSafeProvider } from "next-auth/react";
+import { useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 
 interface ProviderStyle {
@@ -14,6 +15,9 @@ export default function SignIn() {
     string,
     ClientSafeProvider
   > | null>(null);
+
+  const searchParams = useSearchParams();
+  const error = searchParams.get("error");
 
   // Define branding for each provider
   const providerStyles: Record<string, ProviderStyle> = {
@@ -98,6 +102,14 @@ export default function SignIn() {
         Sign in (or create an account) to collaborate on amazing projects with
         our community!
       </p>
+      {/* Display Error Message */}
+      {error && (
+        <p className="mt-4 px-4 py-2 text-red-400 bg-red-900 bg-opacity-40 rounded">
+          {error === "OAuthAccountNotLinked"
+            ? "This email is already associated with another sign-in provider. Try logging in with a different method."
+            : "An error occurred during login. Please try again."}
+        </p>
+      )}
 
       {/* Sign-in Buttons */}
       {providers &&

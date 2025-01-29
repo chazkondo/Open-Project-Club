@@ -38,7 +38,7 @@ const handler = NextAuth({
       });
 
       if (existingUser && existingUser.email !== user.email) {
-        throw new Error("Email is already associated with another account.");
+        throw new Error("Email is already associated with another provider.");
       }
 
       return true;
