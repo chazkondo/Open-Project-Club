@@ -34,11 +34,13 @@ const handler = NextAuth({
       return true;
     },
     async session({ session, user }) {
-      // Attach additional user fields to the session
-      session.user.id = user.id;
+      if (session.user) {
+        session.user.id = user.id; // Ensures user ID is attached safely
+      }
       return session;
     },
   },
+
   session: {
     strategy: "jwt", // Use JWT-based sessions
   },
