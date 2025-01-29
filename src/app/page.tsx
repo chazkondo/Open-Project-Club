@@ -3,6 +3,7 @@
 import React, { useEffect, useRef } from "react";
 import { useSession, signIn, signOut } from "next-auth/react";
 import { motion } from "framer-motion";
+import Link from "next/link";
 
 interface Particle {
   x: number;
@@ -203,8 +204,31 @@ const HomePage = () => {
             Log In
           </motion.button>
         ) : (
-          <motion.div>
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.7, delay: 0.4 }}
+          >
             <p className="mb-6">Welcome, {session.user.name}!</p>
+            <motion.div
+              className="flex space-x-4"
+              initial={{ opacity: 0, scale: 0.8 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 0.5, delay: 0.8 }}
+            >
+              <Link
+                href="/discord-invite"
+                className="px-6 py-2 bg-gradient-to-r from-green-500 to-blue-600 text-white rounded-full shadow-lg hover:scale-105 transition-transform duration-200 hover:shadow-green-500/50"
+              >
+                Join our Discord!
+              </Link>
+              <button
+                onClick={() => signOut()}
+                className="px-6 py-2 bg-gradient-to-r from-red-700 to-red-800 text-white rounded-full shadow-lg hover:scale-105 transition-transform duration-200 hover:shadow-red-500/50"
+              >
+                Log Out
+              </button>
+            </motion.div>
           </motion.div>
         )}
       </div>

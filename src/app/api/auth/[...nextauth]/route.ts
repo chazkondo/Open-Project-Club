@@ -30,7 +30,17 @@ const handler = NextAuth({
   callbacks: {
     // This is triggered when a new user is created (first sign-in)
     async signIn({ user, account, profile }) {
-      // Optional logic to determine whether to allow sign-in
+      if (!user.email || !account) return false; // Ensure account exists
+
+      // Check if user already exists
+      const existingUser = await prisma.user.findUnique({
+        where: { email: user.email },
+      });
+
+      if (existingUser && existingUser.email !== user.email) {
+        throw new Error("Email is already associated with another account.");
+      }
+
       return true;
     },
     async session({ session, user }) {
