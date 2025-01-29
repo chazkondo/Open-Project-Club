@@ -44,9 +44,7 @@ const handler = NextAuth({
   session: {
     strategy: "jwt", // Use JWT-based sessions
   },
-  jwt: {
-    encryption: true, // Ensure JWTs are encrypted
-  },
+  jwt: {},
   pages: {
     signIn: "/auth/signin", // Redirect users to custom sign-in page
   },
