@@ -1,10 +1,10 @@
-import NextAuth from "next-auth";
+import NextAuth, { type AuthOptions, type SessionStrategy } from "next-auth";
 import GitHubProvider from "next-auth/providers/github";
 import GoogleProvider from "next-auth/providers/google";
 import { PrismaAdapter } from "@next-auth/prisma-adapter";
 import { prisma } from "@/lib/prisma"; // Ensure this points to your Prisma instance
 
-const handler = NextAuth({
+const authOptions: AuthOptions = {
   secret: process.env.NEXTAUTH_SECRET, // Add this line
   adapter: PrismaAdapter(prisma), // Connect NextAuth to Prisma
   providers: [
@@ -43,21 +43,34 @@ const handler = NextAuth({
 
       return true;
     },
-    async session({ session, user }) {
+    async jwt({ token, user }) {
+      if (user) {
+        token.id = user.id;
+      }
+      return token;
+    },
+    async session({ session, token }) {
       if (session.user) {
-        session.user.id = user.id; // Ensures user ID is attached safely
+        session.user = {
+          ...session.user, // ✅ Keep existing properties
+          id: token.id as string, // ✅ Ensure `id` is assigned correctly
+        };
+      } else {
+        console.error("Session user is undefined:", session);
       }
       return session;
     },
   },
 
   session: {
-    strategy: "jwt", // Use JWT-based sessions
+    strategy: "jwt" as SessionStrategy, // Use JWT-based sessions
   },
   jwt: {},
   pages: {
     signIn: "/auth/signin", // Redirect users to custom sign-in page
   },
-});
+};
 
-export { handler as GET, handler as POST };
+const handler = NextAuth(authOptions);
+
+export { handler as GET, handler as POST, authOptions };

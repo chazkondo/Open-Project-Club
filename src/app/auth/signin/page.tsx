@@ -104,7 +104,7 @@ export default function SignIn() {
       </p>
       {/* Display Error Message */}
       {error && (
-        <p className="mt-4 px-4 py-2 text-red-400 bg-red-900 bg-opacity-40 rounded">
+        <p className="mt-4 mb-8 px-4 py-2 text-red-400 bg-red-900 bg-opacity-40 rounded">
           {error === "OAuthAccountNotLinked"
             ? "This email is already associated with another sign-in provider. Try logging in with a different method."
             : "An error occurred during login. Please try again."}
