@@ -4,7 +4,7 @@ import GoogleProvider from "next-auth/providers/google";
 import { PrismaAdapter } from "@next-auth/prisma-adapter";
 import { prisma } from "@/lib/prisma"; // Ensure this points to your Prisma instance
 
-export const authOptions = {
+const handler = NextAuth({
   secret: process.env.NEXTAUTH_SECRET, // Add this line
   adapter: PrismaAdapter(prisma), // Connect NextAuth to Prisma
   providers: [
@@ -48,8 +48,6 @@ export const authOptions = {
   pages: {
     signIn: "/auth/signin", // Redirect users to custom sign-in page
   },
-};
-
-const handler = NextAuth(authOptions);
+});
 
 export { handler as GET, handler as POST };
