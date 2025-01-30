@@ -16,7 +16,7 @@ interface Particle {
   opacity: number;
   velocity: { x: number; y: number };
   draw: (ctx: CanvasRenderingContext2D) => void;
-  update: (ctx: CanvasRenderingContext2D) => void;
+  update: (ctx: CanvasRenderingContext2D, deltaTime: number) => void; // ✅ Fix: Expect both ctx and deltaTime
 }
 
 const HomePage = () => {
@@ -74,22 +74,24 @@ const HomePage = () => {
         ctx.fill();
       }
 
-      update(ctx: CanvasRenderingContext2D) {
+      update(ctx: CanvasRenderingContext2D, deltaTime: number) {
         const dx = mouse.x - this.x;
         const dy = mouse.y - this.y;
         const distance = Math.sqrt(dx * dx + dy * dy);
         const maxDistance = mouse.radius;
 
+        const speedMultiplier = deltaTime * 0.5; // ✅ Keeps movement speed consistent across devices
+
         if (distance < maxDistance) {
           this.hue = 360 * (distance / maxDistance);
-          this.x += dx / 20;
-          this.y += dy / 20;
+          this.x += (dx / 20) * speedMultiplier;
+          this.y += (dy / 20) * speedMultiplier;
         } else {
           this.hue += 0.005;
           this.light = this.goUp ? this.light + 0.1 : this.light - 0.1;
           if (this.opacity < 60) this.opacity += 0.05;
-          this.x += this.velocity.x;
-          this.y += this.velocity.y;
+          this.x += this.velocity.x * speedMultiplier;
+          this.y += this.velocity.y * speedMultiplier;
         }
 
         if (this.light >= 100) {
@@ -115,10 +117,15 @@ const HomePage = () => {
       }
     }
 
+    let lastTime = performance.now(); // Track last frame timestamp
+
     function animate() {
-      if (!ctx) return; // ✅ Ensure ctx exists before using it
+      const now = performance.now();
+      const deltaTime = (now - lastTime) / 16.67; // Normalize based on 60 FPS (~16.67ms per frame)
+      lastTime = now;
+      if (!ctx) return;
       ctx.clearRect(0, 0, width, height);
-      particles.forEach((particle) => particle.update(ctx)); // ✅ Pass ctx to update()
+      particles.forEach((particle) => particle.update(ctx, deltaTime)); // ✅ Pass deltaTime to each particle
       requestAnimationFrame(animate);
     }
 
