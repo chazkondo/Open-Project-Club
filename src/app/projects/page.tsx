@@ -9,7 +9,7 @@ export default function ProjectsComingSoon() {
         initial={{ opacity: 0, y: -20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.8, ease: "easeOut" }}
-        className="text-5xl font-bold leading-snug bg-gradient-to-r from-green-400 to-blue-500 text-transparent bg-clip-text"
+        className="text-5xl text-center font-bold leading-snug bg-gradient-to-r from-green-400 to-blue-500 text-transparent bg-clip-text"
       >
         Project Showcase Coming Soon
       </motion.h1>
