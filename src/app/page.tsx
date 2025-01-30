@@ -218,7 +218,7 @@ const HomePage = () => {
           >
             <p className="mb-6">Welcome, {session.user.name}!</p>
             <motion.div
-              className="flex space-x-4"
+              className="flex justify-center space-x-4"
               initial={{ opacity: 0, scale: 0.8 }}
               animate={{ opacity: 1, scale: 1 }}
               transition={{ duration: 0.5, delay: 0.8 }}
