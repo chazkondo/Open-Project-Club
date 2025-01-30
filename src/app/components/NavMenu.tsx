@@ -127,7 +127,7 @@ const NavMenu = () => {
             {/* Log Out Button */}
             <button
               onClick={() => signOut()}
-              className="hover:text-gray-400 transition text-lg"
+              className="hidden lg:flex hover:text-gray-400 transition text-lg"
             >
               Log Out
             </button>

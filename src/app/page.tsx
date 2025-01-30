@@ -229,12 +229,6 @@ const HomePage = () => {
               >
                 Join our Discord!
               </Link>
-              <button
-                onClick={() => signOut()}
-                className="px-6 py-2 bg-gradient-to-r from-red-700 to-red-800 text-white rounded-full shadow-lg hover:scale-105 transition-transform duration-200 hover:shadow-red-500/50"
-              >
-                Log Out
-              </button>
             </motion.div>
           </motion.div>
         )}
