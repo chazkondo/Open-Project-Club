@@ -27,16 +27,6 @@ export default function ProjectsComingSoon() {
       >
         Return Home
       </motion.a>
-
-      {/* Subtle Animation */}
-      <motion.div
-        initial={{ opacity: 0, scale: 0.8 }}
-        animate={{ opacity: 0.6, scale: 1 }}
-        transition={{ duration: 1.5, repeat: Infinity, repeatType: "reverse" }}
-        className="absolute bottom-10 text-gray-600 text-sm"
-      >
-        🚀 Awesome things ahead!
-      </motion.div>
     </div>
   );
 }
