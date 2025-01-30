@@ -35,7 +35,10 @@ const NavMenu = () => {
       }`}
     >
       {/* Logo */}
-      <Link href="/" className="flex items-center space-x-3 text-white">
+      <Link
+        href="/"
+        className="flex items-center space-x-3 text-white cursor-pointer"
+      >
         <svg
           width="60"
           height="60"
@@ -90,7 +93,7 @@ const NavMenu = () => {
       {/* Hamburger Menu Icon (Mobile Only) */}
       <button
         onClick={toggleMobileMenu}
-        className="md:hidden text-white focus:outline-none"
+        className="md:hidden text-white focus:outline-none cursor-pointer"
       >
         <svg
           className="w-8 h-8"
@@ -111,22 +114,34 @@ const NavMenu = () => {
       {/* Desktop Navigation Links */}
       <ul className="hidden md:flex space-x-6 text-white text-lg">
         <li>
-          <Link href="/" className="hover:text-gray-400 transition">
+          <Link
+            href="/"
+            className="hover:text-gray-400 transition cursor-pointer"
+          >
             Home
           </Link>
         </li>
         <li>
-          <Link href="/about" className="hover:text-gray-400 transition">
+          <Link
+            href="/about"
+            className="hover:text-gray-400 transition cursor-pointer"
+          >
             About
           </Link>
         </li>
         <li>
-          <Link href="/projects" className="hover:text-gray-400 transition">
+          <Link
+            href="/projects"
+            className="hover:text-gray-400 transition cursor-pointer"
+          >
             Projects
           </Link>
         </li>
         <li>
-          <Link href="/roadmap" className="hover:text-gray-400 transition">
+          <Link
+            href="/roadmap"
+            className="hover:text-gray-400 transition cursor-pointer"
+          >
             Roadmap
           </Link>
         </li>
@@ -138,7 +153,7 @@ const NavMenu = () => {
           <div className="flex justify-end p-6">
             <button
               onClick={toggleMobileMenu}
-              className="text-white focus:outline-none"
+              className="text-white focus:outline-none cursor-pointer"
             >
               <svg
                 className="w-8 h-8"
@@ -161,7 +176,7 @@ const NavMenu = () => {
               <Link
                 href="/"
                 onClick={toggleMobileMenu}
-                className="hover:text-gray-400 transition"
+                className="hover:text-gray-400 transition cursor-pointer"
               >
                 Home
               </Link>
@@ -170,7 +185,7 @@ const NavMenu = () => {
               <Link
                 href="/about"
                 onClick={toggleMobileMenu}
-                className="hover:text-gray-400 transition"
+                className="hover:text-gray-400 transition cursor-pointer"
               >
                 About
               </Link>
@@ -179,7 +194,7 @@ const NavMenu = () => {
               <Link
                 href="/projects"
                 onClick={toggleMobileMenu}
-                className="hover:text-gray-400 transition"
+                className="hover:text-gray-400 transition cursor-pointer"
               >
                 Projects
               </Link>
@@ -188,7 +203,7 @@ const NavMenu = () => {
               <Link
                 href="/roadmap"
                 onClick={toggleMobileMenu}
-                className="hover:text-gray-400 transition"
+                className="hover:text-gray-400 transition cursor-pointer"
               >
                 Roadmap
               </Link>
@@ -198,32 +213,32 @@ const NavMenu = () => {
               {!session ? (
                 <button
                   onClick={() => signIn()}
-                  className="hover:text-gray-400 transition"
+                  className="hover:text-gray-400 transition cursor-pointer"
                 >
                   Log In
                 </button>
               ) : (
-                <div className="flex flex-col items-center space-y-4">
+                <div className="flex flex-col items-center space-y-4 cursor-pointer">
                   {session?.user?.image ? (
                     <Link href="/profile" onClick={toggleMobileMenu}>
                       <img
                         src={session.user.image}
                         alt={session.user.name || "User"}
-                        className="h-16 w-16 rounded-full border-2 border-white hover:opacity-80 transition"
+                        className="h-16 w-16 rounded-full border-2 border-white hover:opacity-80 transition cursor-pointer"
                       />
                     </Link>
                   ) : (
                     <Link
                       href="/profile"
                       onClick={toggleMobileMenu}
-                      className="text-white hover:text-gray-400 transition"
+                      className="text-white hover:text-gray-400 transition cursor-pointer"
                     >
                       {session?.user?.name}
                     </Link>
                   )}
                   <button
                     onClick={() => signOut()}
-                    className="text-white hover:text-gray-400 transition"
+                    className="text-white hover:text-gray-400 transition cursor-pointer"
                   >
                     Log Out
                   </button>
@@ -239,7 +254,7 @@ const NavMenu = () => {
         {!session ? (
           <button
             onClick={() => signIn()}
-            className="hover:text-gray-400 transition text-lg"
+            className="hover:text-gray-400 transition text-lg cursor-pointer"
           >
             Log In
           </button>
@@ -250,13 +265,13 @@ const NavMenu = () => {
                 <img
                   src={session.user.image}
                   alt={session.user.name || "User"}
-                  className="h-10 w-10 rounded-full border-2 border-white hover:opacity-80 transition"
+                  className="h-10 w-10 rounded-full border-2 border-white hover:opacity-80 transition cursor-pointer"
                 />
               </Link>
             ) : (
               <Link
                 href="/profile"
-                className="text-white hover:text-gray-400 transition max-w-[120px] truncate text-lg"
+                className="text-white hover:text-gray-400 transition max-w-[120px] truncate text-lg cursor-pointer"
                 title={session?.user?.name || ""}
               >
                 {session?.user?.name}
@@ -264,7 +279,7 @@ const NavMenu = () => {
             )}
             <button
               onClick={() => signOut()}
-              className="hover:text-gray-400 transition text-lg"
+              className="hover:text-gray-400 transition text-lg cursor-pointer"
             >
               Log Out
             </button>
