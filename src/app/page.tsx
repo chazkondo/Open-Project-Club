@@ -147,7 +147,7 @@ const HomePage = () => {
       <canvas ref={canvasRef} className="absolute top-0 left-0 z-0" />
       <div className="relative z-10 flex flex-col items-center justify-center h-full text-center text-white space-y-6">
         <motion.h1
-          className="text-7xl font-bold leading-[1.1] text-transparent bg-clip-text bg-gradient-to-r dark:from-green-400/90 dark:to-blue-500/90 from-white/80 to-white/90"
+          className="text-7xl font-bold leading-[1.1] text-transparent bg-clip-text bg-gradient-to-r from-white/80 to-white/90"
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 1 }}
