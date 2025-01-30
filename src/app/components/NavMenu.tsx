@@ -98,7 +98,7 @@ const NavMenu = () => {
         {!session ? (
           <button
             onClick={() => signIn()}
-            className="hover:text-gray-400 transition text-lg"
+            className="hidden lg:flex hover:text-gray-400 transition text-lg"
           >
             Log In
           </button>

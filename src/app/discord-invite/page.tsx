@@ -41,7 +41,7 @@ const DiscordInvite = () => {
   if (!session) {
     return (
       <div className="flex flex-col items-center justify-center h-screen text-white">
-        <p className="text-2xl mb-4">
+        <p className="text-2xl mb-4 text-center">
           You need to be logged in to access this page.
         </p>
         <button
