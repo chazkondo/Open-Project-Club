@@ -57,7 +57,7 @@ const DiscordInvite = () => {
   return (
     <div className="flex flex-col items-center justify-center h-screen text-white">
       <h1 className="text-4xl font-bold mb-4">Join Our Discord</h1>
-      <p className="text-lg mb-4">
+      <p className="text-lg mb-4 text-center">
         Scan the QR code below to join the Open Project Club Discord.
       </p>
 
