@@ -89,7 +89,7 @@ const HomePage = () => {
         } else {
           this.hue += 0.005;
           this.light = this.goUp ? this.light + 0.1 : this.light - 0.1;
-          if (this.opacity < 35) this.opacity += 0.02;
+          if (this.opacity < 35) this.opacity += 0.01 * speedMultiplier;
           this.x += this.velocity.x * speedMultiplier;
           this.y += this.velocity.y * speedMultiplier;
         }
