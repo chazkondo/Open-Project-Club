@@ -20,7 +20,7 @@ export const metadata: Metadata = {
     url: "https://OpenProjectClub.com",
     images: [
       {
-        url: "/logo.png",
+        url: "https://OpenProjectClub.com/large_logo.webp",
         width: 1200,
         height: 630,
         alt: "Open Project Club Logo",
